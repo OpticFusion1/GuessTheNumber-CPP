@@ -2,6 +2,14 @@
 #include <iostream>
 using namespace std;
 
+// Needed? Not really, but it's nice to have.
+// Worth checking to make sure there's nothing that can be done in a fucky manner though, e.g. memory related or overflow related or something like that.
+template <typename T>
+void print(T const* message)
+{
+	cout << message << endl;
+}
+
 // TODO: Separate into separate functions.
 int main()
 {
@@ -9,13 +17,12 @@ int main()
 	int choice;
 	do
 	{
-		// TODO: Add some sort of print function
-		cout << "0) Exit\n1) Start Game" << endl;
+		print("0) Exit\n1) Start Game");
 		cin >> choice;
 		switch (choice)
 		{
 		case 0:
-			cout << "Exiting..." << endl;
+			print("Exiting...");
 			return 0;
 		case 1:
 			int attempts = 0;
@@ -23,17 +30,14 @@ int main()
 			while (true)
 			{
 				attempts += 1;
-				cout << to_string(random) << endl;
-				cout << "Enter a number between 0 and 250" << endl;
+				print("Enter a number between 0 and 250");
 				int guess;
 				cin >> guess;
 				if (guess == random) {
 					printf("You won. It took %i attempts\n", attempts);
 					break;
 				}
-				// TODO: Surely this can be done better
-				string output = guess < random ? "Too low." : "Too high.";
-				cout << output << endl;
+				print(guess < random ? "Too low." : "Too high.");
 			}
 		}
 	} while (choice != 0);
