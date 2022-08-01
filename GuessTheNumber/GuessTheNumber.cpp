@@ -1,20 +1,40 @@
-// GuessTheNumber.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
+#include <string>
 #include <iostream>
+using namespace std;
 
+// TODO: Separate into separate functions.
 int main()
 {
-    std::cout << "Hello World!\n";
+	srand(time(NULL));
+	int choice;
+	do
+	{
+		// TODO: Add some sort of print function
+		cout << "0) Exit\n1) Start Game" << endl;
+		cin >> choice;
+		switch (choice)
+		{
+		case 0:
+			cout << "Exiting..." << endl;
+			return 0;
+		case 1:
+			int attempts = 0;
+			int random = rand() % 250; // TODO: Add difficulties EASY, MEDIUM, HARD
+			while (true)
+			{
+				attempts += 1;
+				cout << to_string(random) << endl;
+				cout << "Enter a number between 0 and 250" << endl;
+				int guess;
+				cin >> guess;
+				if (guess == random) {
+					printf("You won. It took %i attempts\n", attempts);
+					break;
+				}
+				// TODO: Surely this can be done better
+				string output = guess < random ? "Too low." : "Too high.";
+				cout << output << endl;
+			}
+		}
+	} while (choice != 0);
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
