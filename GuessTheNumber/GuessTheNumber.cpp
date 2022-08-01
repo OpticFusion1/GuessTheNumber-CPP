@@ -18,6 +18,37 @@ void init()
 
 void play_game()
 {
+	int attempts = 0;
+	int random = rand() % 250; // TODO: Add difficulties EASY, MEDIUM, HARD
+	while (true)
+	{
+		attempts += 1;
+		print("Enter a number between 0 and 250");
+		int guess;
+		cin >> guess;
+
+		// Makes sure input is an integer
+		// TODO: Reject decimal numbers
+		while (!cin.good()) {
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			print("Enter a number between 0 and 250");
+			cin >> guess;
+		}
+
+		guess == guess < 0 ? 0 : guess > 250 ? 250 : guess;
+
+		if (guess == random) {
+			printf("You won. It took %i attempts\n", attempts);
+			break;
+		}
+
+		print(guess < random ? "Too low." : "Too high.");
+	}
+}
+
+void main_menu()
+{
 	int choice;
 	do
 	{
@@ -29,33 +60,7 @@ void play_game()
 			print("Exiting...");
 			exit(0);
 		case 1:
-			int attempts = 0;
-			int random = rand() % 250; // TODO: Add difficulties EASY, MEDIUM, HARD
-			while (true)
-			{
-				attempts += 1;
-				print("Enter a number between 0 and 250");
-				int guess;
-				cin >> guess;
-
-				// Makes sure input is an integer
-				// TODO: Reject decimal numbers
-				while (!cin.good()) {
-					cin.clear();
-					cin.ignore(numeric_limits<streamsize>::max(), '\n');
-					print("Enter a number between 0 and 250");
-					cin >> guess;
-				}
-
-				guess == guess < 0 ? 0 : guess > 250 ? 250 : guess;
-
-				if (guess == random) {
-					printf("You won. It took %i attempts\n", attempts);
-					break;
-				}
-
-				print(guess < random ? "Too low." : "Too high.");
-			}
+			play_game();
 		}
 	} while (choice != 0);
 }
@@ -63,5 +68,5 @@ void play_game()
 int main()
 {
 	init();
-	play_game();
+	main_menu();
 }
