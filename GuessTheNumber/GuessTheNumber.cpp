@@ -2,6 +2,9 @@
 // TODO: Check to see if any of this can be done better
 #include <string>
 #include <iostream>
+#include <fstream>
+#include <vector>
+#include <filesystem>
 using namespace std;
 
 // Needed? Not really, but it's nice to have.
@@ -13,9 +16,9 @@ void print(T message)
 }
 
 // TODO: Move to Utils
-void print_array(int array[], int size)
+void print_vector(vector<int> array)
 {
-	for (int i = 0; i < size; i++) 
+	for (int i = 0; i < array.size(); i++)
 	{
 		// TODO: Make the output nicer. Perhaps support something like cout << array[i] << "\t" within print
 		cout << array[i] << "\t"; // Temporary until replaced
@@ -29,12 +32,24 @@ void init()
 	srand(time(NULL));
 }
 
+void createfile(string name)
+{
+	ofstream file(name);
+	file.close();
+}
+
 void play_game()
 {
+	string filename = "best_score.txt";
+	
+	if (!filesystem::exists(filename))
+	{
+		createfile(filename);
+	}
+
 	int attempts = 0;
 	int random = rand() % 251; // TODO: Add difficulties EASY, MEDIUM, HARD
-	int guesses[251];
-	int count = 0;
+	vector<int> guesses;
 	while (true)
 	{
 		attempts += 1;
@@ -54,12 +69,44 @@ void play_game()
 
 		guess == guess < 0 ? 0 : guess > 250 ? 250 : guess;
 		// TODO: Add logic to enforce no duplications
-		guesses[count++] = guess;
+		guesses.push_back(guess);
 
 		if (guess == random) {
 			printf("You won. It took %i attempts\n", attempts);
 			print("Guesses:\n");
-			print_array(guesses, count);
+			print_vector(guesses);
+
+			// TODO: Add the ability to store multiple best scores w/ names
+			// TODO: Clean up code
+			// e.g. TODD: 10\nJILL: 1\nJosh: 5
+			ifstream input("best_score.txt");
+
+			if (!input.is_open()) 
+			{
+				print("Unable to read file\n");
+				return;
+			}
+
+			int best_score;
+			input >> best_score;
+
+			ofstream output("best_score.txt");
+
+			if (!output.is_open())
+			{
+				print("Unable to read file\n");
+				return;
+			}
+
+			if (attempts < best_score)
+			{
+				output << attempts;
+			}
+			else
+			{
+				output << best_score;
+			}
+
 			break;
 		}
 
