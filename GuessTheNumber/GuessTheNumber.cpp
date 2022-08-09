@@ -13,6 +13,8 @@ template <typename T>
 void print(T message)
 {
 	cout << message << endl;
+	cout.clear();
+	cout.flush();
 }
 
 // TODO: Move to Utils
@@ -41,14 +43,17 @@ void createfile(string name)
 void play_game()
 {
 	string filename = "best_score.txt";
+	bool newgame = false;
 	
 	if (!filesystem::exists(filename))
 	{
 		createfile(filename);
+		newgame = true;
 	}
 
 	int attempts = 0;
 	int random = rand() % 251; // TODO: Add difficulties EASY, MEDIUM, HARD
+	print(random);
 	vector<int> guesses;
 	while (true)
 	{
@@ -87,8 +92,12 @@ void play_game()
 				return;
 			}
 
-			int best_score;
-			input >> best_score;
+			int best_score = 9999;
+			
+			if (!newgame)
+			{
+				input >> best_score;
+			}
 
 			ofstream output("best_score.txt");
 
@@ -98,15 +107,18 @@ void play_game()
 				return;
 			}
 
-			if (attempts < best_score)
+			if (newgame)
 			{
+				printf("Saving due to new game. Current best score is %i", attempts);
 				output << attempts;
-			}
-			else
-			{
-				output << best_score;
+				return;
 			}
 
+			if (attempts < best_score)
+			{
+				printf("New best score achieved!\nOld Best Score %i!\nNew Best Score %i!\n", best_score, attempts);
+				output << attempts;
+			}
 			break;
 		}
 
