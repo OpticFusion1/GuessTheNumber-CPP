@@ -3,19 +3,10 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include <vector>
 #include <filesystem>
-using namespace std;
+#include "Utils.cpp"
 
-// Needed? Not really, but it's nice to have.
-// TODO: Move to Utils
-template <typename T>
-void print(T message)
-{
-	cout << message << endl;
-	cout.clear();
-	cout.flush();
-}
+using namespace std;
 
 // TODO: Move to Utils
 void print_vector(vector<int> array)
@@ -27,6 +18,23 @@ void print_vector(vector<int> array)
 //		print(to_string(array[i]) + "\t");
 	}
 	print("\n");
+}
+
+// TODO: Move this into a GuessManager class. Said class would include is_already_guessed, add_guess, and get_guesses functions.
+// This GuessManager would also handle getting/setting the best score, if the current score is better than the best score and general guess managery things
+bool is_already_guessed(vector<int> guesses, int guess)
+{
+    if (guesses.empty()) {
+        return false;
+    }
+    for (int i =0; i < guesses.size(); i++) 
+    {
+        if (guesses[i] == guess)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 void init()
@@ -68,12 +76,17 @@ void play_game()
 		while (!cin.good()) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			print("Enter a number between 0 and 250");
+			print("Enter a number between 0 and 250\n");
 			cin >> guess;
 		}
 
 		guess == guess < 0 ? 0 : guess > 250 ? 250 : guess;
-		// TODO: Add logic to enforce no duplications
+
+        if (is_already_guessed(guesses, guess))
+        {
+            printf("You already guessed the number %i\n", guess);
+            continue;
+        }
 		guesses.push_back(guess);
 
 		if (guess == random) {
@@ -82,8 +95,8 @@ void play_game()
 			print_vector(guesses);
 
 			// TODO: Add the ability to store multiple best scores w/ names
+			// e.g. TODD: 10\nJILL: 1\nJosh: 5. This should be part of the GuessManager class
 			// TODO: Clean up code
-			// e.g. TODD: 10\nJILL: 1\nJosh: 5
 			ifstream input("best_score.txt");
 
 			if (!input.is_open()) 
@@ -109,7 +122,7 @@ void play_game()
 
 			if (newgame)
 			{
-				printf("Saving due to new game. Current best score is %i", attempts);
+				printf("Saving due to new game. Current best score is %i\n", attempts);
 				output << attempts;
 				return;
 			}
