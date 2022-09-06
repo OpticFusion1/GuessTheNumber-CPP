@@ -61,7 +61,6 @@ void play_game()
 
 	int attempts = 0;
 	int random = rand() % 251; // TODO: Add difficulties EASY, MEDIUM, HARD
-	print(random);
 	vector<int> guesses;
 	while (true)
 	{
