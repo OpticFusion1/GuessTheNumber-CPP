@@ -81,11 +81,12 @@ void play_game()
 
 		guess == guess < 0 ? 0 : guess > 250 ? 250 : guess;
 
-        if (is_already_guessed(guesses, guess))
-        {
-            printf("You already guessed the number %i\n", guess);
-            continue;
-        }
+           	if (is_already_guessed(guesses, guess))
+	        {
+	            printf("You already guessed the number %i\n", guess);
+        	    continue;
+	        }
+	
 		guesses.push_back(guess);
 
 		if (guess == random) {
