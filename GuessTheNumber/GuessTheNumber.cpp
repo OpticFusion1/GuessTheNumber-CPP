@@ -24,7 +24,8 @@ void print_vector(vector<int> array)
 // This GuessManager would also handle getting/setting the best score, if the current score is better than the best score and general guess managery things
 bool is_already_guessed(vector<int> guesses, int guess)
 {
-    if (guesses.empty()) {
+    if (guesses.empty()) 
+    {
         return false;
     }
     for (int i =0; i < guesses.size(); i++) 
@@ -72,7 +73,8 @@ void play_game()
 		// Makes sure input is an integer
 		// TODO: Reject decimal numbers
 		// TODO: Move to Utils and abstract away if possible
-		while (!cin.good()) {
+		while (!cin.good()) 
+                {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			print("Enter a number between 0 and 250\n");
@@ -89,7 +91,8 @@ void play_game()
 	
 		guesses.push_back(guess);
 
-		if (guess == random) {
+		if (guess == random) 
+                {
 			printf("You won. It took %i attempts\n", attempts);
 			print("Guesses:\n");
 			print_vector(guesses);
