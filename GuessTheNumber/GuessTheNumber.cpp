@@ -71,7 +71,7 @@ void play_game()
 		cin >> guess;
 
 		// Makes sure input is an integer
-		// TODO: Reject decimal numbers
+		// TODO: Reject decimal numbers and numbers less than 0
 		// TODO: Move to Utils and abstract away if possible
 		while (!cin.good()) 
                 {
