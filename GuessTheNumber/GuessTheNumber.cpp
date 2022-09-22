@@ -1,24 +1,8 @@
 // TODO: Make sure naming conventions are followed
 // TODO: Check to see if any of this can be done better
-#include <string>
-#include <iostream>
-#include <fstream>
-#include <filesystem>
-#include "Utils.cpp"
+#include "Utils.h"
 
-using namespace std;
-
-// TODO: Move to Utils
-void print_vector(vector<int> array)
-{
-	for (int i = 0; i < array.size(); i++)
-	{
-		// TODO: Make the output nicer. Perhaps support something like cout << array[i] << "\t" within print
-		cout << array[i] << "\t"; // Temporary until replaced
-//		print(to_string(array[i]) + "\t");
-	}
-	print("\n");
-}
+using namespace Utils;
 
 // TODO: Move this into a GuessManager class. Said class would include is_already_guessed, add_guess, and get_guesses functions.
 // This GuessManager would also handle getting/setting the best score, if the current score is better than the best score and general guess managery things
@@ -49,6 +33,21 @@ void createfile(string name)
 	file.close();
 }
 
+// TODO: Move to Utils and abstract away if possible
+int getInput()
+{
+    double num;
+    cin >> num;
+    while (!cin.good() || num < 0 || num > 250)
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        print("Enter a number between 0 and 250");
+        cin >> num;
+    }
+    return num;
+}
+
 void play_game()
 {
 	string filename = "best_score.txt";
@@ -67,6 +66,14 @@ void play_game()
 	{
 		attempts += 1;
 		print("Enter a number between 0 and 250");
+<<<<<<< HEAD
+		int guess = getInput();
+        if (is_already_guessed(guesses, guess))
+	    {
+	        printf("You already guessed the number %i\n", guess);
+            continue;
+	    }
+=======
 		int guess;
 		cin >> guess;
 
@@ -88,17 +95,16 @@ void play_game()
 	            printf("You already guessed the number %i\n", guess);
         	    continue;
 	        }
+>>>>>>> 713ac993029d70e1b5897832f2ca78cb0a919ea1
 	
 		guesses.push_back(guess);
 
 		if (guess == random) 
-                {
-			printf("You won. It took %i attempts\n", attempts);
-			print("Guesses:\n");
+        {
+			printf("You won. It took %i attempts\nGuesses:\n", attempts);
 			print_vector(guesses);
 
-			// TODO: Add the ability to store multiple best scores w/ names
-			// e.g. TODD: 10\nJILL: 1\nJosh: 5. This should be part of the GuessManager class
+			// TODO: Add the ability to store multiple best scores w/ names e.g. TODD: 10\nJILL: 1\nJosh: 5. This should be part of the GuessManager class
 			// TODO: Clean up code
 			ifstream input("best_score.txt");
 
