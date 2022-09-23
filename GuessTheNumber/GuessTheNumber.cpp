@@ -66,39 +66,13 @@ void play_game()
 	{
 		attempts += 1;
 		print("Enter a number between 0 and 250");
-<<<<<<< HEAD
 		int guess = getInput();
         if (is_already_guessed(guesses, guess))
 	    {
 	        printf("You already guessed the number %i\n", guess);
             continue;
 	    }
-=======
-		int guess;
-		cin >> guess;
-
-		// Makes sure input is an integer
-		// TODO: Reject decimal numbers and numbers less than 0
-		// TODO: Move to Utils and abstract away if possible
-		while (!cin.good()) 
-                {
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			print("Enter a number between 0 and 250\n");
-			cin >> guess;
-		}
-
-		guess == guess < 0 ? 0 : guess > 250 ? 250 : guess;
-
-           	if (is_already_guessed(guesses, guess))
-	        {
-	            printf("You already guessed the number %i\n", guess);
-        	    continue;
-	        }
->>>>>>> 713ac993029d70e1b5897832f2ca78cb0a919ea1
-	
 		guesses.push_back(guess);
-
 		if (guess == random) 
         {
 			printf("You won. It took %i attempts\nGuesses:\n", attempts);
